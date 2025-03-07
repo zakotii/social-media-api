@@ -6,15 +6,23 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
-# Пользовательская модель User
-class User(AbstractUser):
-    profile_picture = models.ImageField(
-        upload_to="profile_pics/", blank=True, null=True
-    )
-    bio = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.username
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+
+    class Meta:
+        app_label = "api"  
+
+    groups = models.ManyToManyField(
+        "auth.Group",
+        related_name="api_users", 
+        blank=True,
+    )
+    user_permissions = models.ManyToManyField(
+        "auth.Permission",
+        related_name="api_users_permissions", 
+        blank=True,
+    )
 
 
 # Подписки (Follow/Unfollow)
