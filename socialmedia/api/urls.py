@@ -7,8 +7,10 @@ router = DefaultRouter()
 router.register(r"users", UserViewSet)
 router.register(r"posts", PostViewSet)
 router.register(r"followers", FollowerViewSet)
+from .views import UserCreateView
 
 urlpatterns = [
     path("", include(router.urls)),
     path("register/", RegisterView.as_view(), name="register"),
+    path("users/", UserCreateView.as_view(), name="user-create"),
 ]
