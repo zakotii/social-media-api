@@ -16,7 +16,11 @@ class FollowerSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
+    hashtags = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ["id", "author", "content", "media", "created_at"]
+        fields = ["id", "author", "content", "media", "created_at", "hashtags"]
+
+    def get_hashtags(self, obj):
+        return re.findall(r"#(\w+)", obj.content)
