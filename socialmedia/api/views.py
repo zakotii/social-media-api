@@ -73,11 +73,9 @@ class PostViewSet(viewsets.ModelViewSet):
         user = self.request.user
         print(f"DEBUG: request.user = {user}, type = {type(user)}")
 
-        # Убедимся, что пользователь аутентифицирован
         if not isinstance(user, User):
             raise ValueError("Request user is not a valid User instance")
 
-        # Получаем посты пользователей, на которых подписан текущий пользователь
         following_users = Follower.objects.filter(follower=user).values_list(
             "user", flat=True
         )
