@@ -1,55 +1,56 @@
-# Social Media API 📱🚀
+# Social Media API 📱🚀  
 
-Этот проект — RESTful API для социальной сети, разработанный на **Django REST Framework**.
+This project is a RESTful API for a social network, developed using **Django REST Framework**.  
 
-## 📌 Функциональность
+## 📌 Features  
 
-✅ Регистрация и аутентификация пользователей (JWT)  
-✅ Создание и редактирование профиля  
-✅ Подписки (Follow/Unfollow)  
-✅ Создание, просмотр и удаление постов  
-✅ Лайки и комментарии (опционально)  
-✅ Поиск постов по хештегам  
-✅ Запланированные публикации с Celery (опционально)  
+✅ User registration and authentication (JWT)  
+✅ Profile creation and editing  
+✅ Following and unfollowing users  
+✅ Creating, viewing, and deleting posts  
+✅ Likes and comments (optional)  
+✅ Searching posts by hashtags  
+✅ Scheduled posts with Celery (optional)  
 
-## ⚙️ Установка и запуск
+## ⚙️ Installation and Setup  
 
-### 1️⃣ Клонирование репозитория
+### 1️⃣ Clone the repository  
 ```bash
 git clone https://github.com/ТВОЙ_ГИТХАБ/social-media-api.git
 cd social-media-api
 
-Создание виртуального окружения
+Creating a virtual environment
 python -m venv venv
-source venv/bin/activate  # Для macOS/Linux
-venv\Scripts\activate     # Для Windows
+source venv/bin/activate  # For macOS/Linux
+venv\Scripts\activate     # For Windows
 
-Установка зависимостей
+Installing dependencies
 pip install -r requirements.txt
 
-Применение миграций
+Using migrations
 python manage.py migrate
 
-Создание суперпользователя
+Creating a superuser
 python manage.py createsuperuser
 
- Запуск сервера
+ Starting the server
  python manage.py runserver
 
 
- Аутентификация (JWT)
+ Authentication (JWT)
 curl -X POST http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" -d '{"username": "admin", "password": "yourpassword"}'
 
-Ответ:
+Answer:
 {
     "refresh": "your_refresh_token",
     "access": "your_access_token"
 }
 
-Используйте access_token в заголовке Authorization:
+Use access_token in the Authorization header:
 -H "Authorization: Bearer your_access_token"
 
 
-Документация API
-http://127.0.0.1:8000/swagger/
+API Documentation
+http://127.0.0.1:8000/schema/swagger-ui/
+
 
