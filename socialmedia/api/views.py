@@ -17,6 +17,8 @@ from django.contrib.auth import get_user_model
 
 from django.db.models import Q
 
+from rest_framework.decorators import action
+
 User = get_user_model()
 
 
@@ -61,15 +63,23 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Post.objects.filter(
-            Q(author=user) | Q(author__followers__follower=user)
-        ).distinct()
+        print(f"DEBUG: request.user = {user}, type = {type(user)}")
 
-        hashtag = self.request.query_params.get("hashtag")
-        if hashtag:
-            queryset = queryset.filter(content__icontains=f"#{hashtag}")
+        # Убедимся, что пользователь аутентифицирован
+        if not isinstance(user, User):
+            raise ValueError("Request user is not a valid User instance")
 
-        return queryset
+        # Получаем посты пользователей, на которых подписан текущий пользователь
+        following_users = Follower.objects.filter(follower=user).values_list(
+            "user", flat=True
+        )
+        return Post.objects.filter(author__in=following_users)
+
+    @action(detail=True, methods=["post"])
+    def like(self, request, pk=None):
+        post = self.get_object()
+        post.likes.add(request.user)
+        return Response({"status": "liked"})
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
