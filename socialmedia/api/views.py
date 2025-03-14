@@ -21,6 +21,14 @@ from rest_framework.decorators import action
 
 User = get_user_model()
 
+from api.serializers import UserSerializer
+
+
+class RegisterUserView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
 
 class UserCreateView(generics.CreateAPIView):
     ermission_classes = [permissions.AllowAny]
